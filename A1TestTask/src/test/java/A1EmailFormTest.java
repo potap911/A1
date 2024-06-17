@@ -9,12 +9,10 @@ import org.potapenko.Driver;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class A1EmailFormTest {
-    private WebDriver driver;
     private A1Page a1Page;
 
     @BeforeEach
-    void setupAll() {
-        driver = Driver.getInstance();
+    void setupPage() {
         a1Page = new A1Page();
     }
 
@@ -58,7 +56,7 @@ public class A1EmailFormTest {
     }
 
     @AfterEach
-    void closeDriver() {
+    void closePage() {
         Driver.close();
     }
 }

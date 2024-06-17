@@ -18,18 +18,14 @@ public class A1EmailFormTest {
     @Test
     @DisplayName("Valid email: nikita.potap@yandex.ru")
     void validEmailTest1() {
-        a1Page.clickButtonAcceptAll();
-        a1Page.scrollDown();
-        a1Page.clickInputEmail();
-        a1Page.getInputEmail().sendKeys("nikita.potap@yandex.ru");
-        a1Page.clickButtonSendEmail();
+        scriptSendEmail("nikita.potap@yandex.ru");
 
-
-        assert a1Page.getToastSuccessSubscribe().isEnabled();
-        assert a1Page.getToastSuccessSubscribe().isDisplayed();
-        assertEquals(" Вы подписались", a1Page.getTitleSuccessSubscribe().getAttribute("innerHTML"));
-        assertEquals("Вы успешно подписались на нашу новостную рассылку.", a1Page.getTextSuccessSubscribe().getAttribute("innerHTML"));
-
+        assertAll("Всплывающее окно 'Вы успешно подписались'",
+                () -> a1Page.getToastSuccessSubscribe().isEnabled(),
+                () -> a1Page.getToastSuccessSubscribe().isDisplayed(),
+                () -> assertEquals(" Вы подписались", a1Page.getTitleSuccessSubscribe().getAttribute("innerHTML")),
+                () -> assertEquals("Вы успешно подписались на нашу новостную рассылку.", a1Page.getTextSuccessSubscribe().getAttribute("innerHTML"))
+        );
     }
 
     @ParameterizedTest
@@ -40,17 +36,22 @@ public class A1EmailFormTest {
             "nikita.potap@yandex.rus"
     })
     void invalidEmailTest2(String invalidEmail) {
+        scriptSendEmail(invalidEmail);
+
+        assertAll("Всплывающее окно ошибки 'Невалидный email'",
+                () -> a1Page.getToastErrorSubscribe().isEnabled(),
+                () -> a1Page.getToastErrorSubscribe().isDisplayed(),
+                () -> assertEquals("Ошибка заполнения", a1Page.getTitleErrorSubscribe().getAttribute("innerHTML")),
+                () -> assertEquals("Проверьте указанный email.", a1Page.getTextErrorSubscribe().getAttribute("innerHTML"))
+        );
+    }
+
+    void scriptSendEmail(String email) {
         a1Page.clickButtonAcceptAll();
         a1Page.scrollDown();
         a1Page.clickInputEmail();
-        a1Page.getInputEmail().sendKeys(invalidEmail);
+        a1Page.getInputEmail().sendKeys(email);
         a1Page.clickButtonSendEmail();
-
-        assert a1Page.getToastErrorSubscribe().isEnabled();
-        assert a1Page.getToastErrorSubscribe().isDisplayed();
-        assertEquals("Ошибка заполнения", a1Page.getTitleErrorSubscribe().getAttribute("innerHTML"));
-        assertEquals("Проверьте указанный email.", a1Page.getTextErrorSubscribe().getAttribute("innerHTML"));
-
     }
 
     @AfterEach

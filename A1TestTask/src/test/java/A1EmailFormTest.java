@@ -15,10 +15,17 @@ public class A1EmailFormTest {
         a1Page = new A1Page();
     }
 
-    @Test
-    @DisplayName("Valid email: nikita.potap@yandex.ru")
+    @ParameterizedTest
+    @DisplayName("Valid email")
+    @ValueSource(strings = {
+            "nikita.potap@yandex.ru",
+            "breizulleiddoige-2164@yopmail.com",
+            "queuxeveissofou-3120@yopmail.com",
+            "yaotlmd735@1secmail.ru",
+            "Katieattractive@yahoo.com.sg"
+    })
     void validEmailTest1() {
-        scriptSendEmail("nikita.potap@yandex.ru");
+        a1Page.scriptSendEmail("nikita.potap@yandex.ru");
 
         assertAll("Всплывающее окно 'Вы успешно подписались'",
                 () -> a1Page.getToastSuccessSubscribe().isEnabled(),
@@ -33,10 +40,11 @@ public class A1EmailFormTest {
     @ValueSource(strings = {
             "nikita.potap.yandex.ru",
             "nikita.potap@yandexru",
-            "nikita.potap@yandex.rus"
+            "nikita.potap@yandex.rus",
+            "nikita@potap@yandex.ru",
     })
     void invalidEmailTest2(String invalidEmail) {
-        scriptSendEmail(invalidEmail);
+        a1Page.scriptSendEmail(invalidEmail);
 
         assertAll("Всплывающее окно ошибки 'Невалидный email'",
                 () -> a1Page.getToastErrorSubscribe().isEnabled(),
@@ -46,13 +54,6 @@ public class A1EmailFormTest {
         );
     }
 
-    void scriptSendEmail(String email) {
-        a1Page.clickButtonAcceptAll();
-        a1Page.scrollDown();
-        a1Page.clickInputEmail();
-        a1Page.getInputEmail().sendKeys(email);
-        a1Page.clickButtonSendEmail();
-    }
 
     @AfterEach
     void closePage() {

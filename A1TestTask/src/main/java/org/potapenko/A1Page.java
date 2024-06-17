@@ -59,6 +59,14 @@ public class A1Page {
         js.executeScript("arguments[0].click();", buttonSendEmail);
     }
 
+    public void scriptSendEmail(String email) {
+        clickButtonAcceptAll();
+        scrollDown();
+        clickInputEmail();
+        getInputEmail().sendKeys(email);
+        clickButtonSendEmail();
+    }
+
     public WebElement getInputEmail() {
         return inputEmail;
     }

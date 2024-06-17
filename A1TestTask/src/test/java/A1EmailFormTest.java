@@ -1,6 +1,5 @@
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.openqa.selenium.WebDriver;
 
 import org.junit.jupiter.api.*;
 import org.potapenko.A1Page;
@@ -25,12 +24,12 @@ public class A1EmailFormTest {
         a1Page.getInputEmail().sendKeys("nikita.potap@yandex.ru");
         a1Page.clickButtonSendEmail();
 
-        assertAll("Всплывающее окно 'Вы успешно подписались'",
-                //() -> a1Page.getToastSuccessSubscribe().isEnabled(),
-                //() -> a1Page.getToastSuccessSubscribe().isDisplayed(),
-                () -> assertEquals(" Вы подписались", a1Page.getTitleSuccessSubscribe().getAttribute("innerHTML")),
-                () -> assertEquals("Вы успешно подписались на нашу новостную рассылку.", a1Page.getTextSuccessSubscribe().getAttribute("innerHTML"))
-        );
+
+        assert a1Page.getToastSuccessSubscribe().isEnabled();
+        assert a1Page.getToastSuccessSubscribe().isDisplayed();
+        assertEquals(" Вы подписались", a1Page.getTitleSuccessSubscribe().getAttribute("innerHTML"));
+        assertEquals("Вы успешно подписались на нашу новостную рассылку.", a1Page.getTextSuccessSubscribe().getAttribute("innerHTML");
+
     }
 
     @ParameterizedTest
@@ -47,12 +46,11 @@ public class A1EmailFormTest {
         a1Page.getInputEmail().sendKeys(invalidEmail);
         a1Page.clickButtonSendEmail();
 
-        assertAll("Всплывающее окно ошибки 'Невалидный email'",
-                () -> a1Page.getToastErrorSubscribe().isEnabled(),
-                () -> a1Page.getToastErrorSubscribe().isDisplayed(),
-                () -> assertEquals("Ошибка заполнения", a1Page.getTitleErrorSubscribe().getAttribute("innerHTML")),
-                () -> assertEquals("Проверьте указанный email.", a1Page.getTextErrorSubscribe().getAttribute("innerHTML"))
-        );
+        assert a1Page.getToastErrorSubscribe().isEnabled();
+        assert a1Page.getToastErrorSubscribe().isDisplayed();
+        assertEquals("Ошибка заполнения", a1Page.getTitleErrorSubscribe().getAttribute("innerHTML"));
+        assertEquals("Проверьте указанный email.", a1Page.getTextErrorSubscribe().getAttribute("innerHTML"));
+
     }
 
     @AfterEach

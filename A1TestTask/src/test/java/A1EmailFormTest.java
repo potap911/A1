@@ -28,7 +28,7 @@ public class A1EmailFormTest {
         assert a1Page.getToastSuccessSubscribe().isEnabled();
         assert a1Page.getToastSuccessSubscribe().isDisplayed();
         assertEquals(" Вы подписались", a1Page.getTitleSuccessSubscribe().getAttribute("innerHTML"));
-        assertEquals("Вы успешно подписались на нашу новостную рассылку.", a1Page.getTextSuccessSubscribe().getAttribute("innerHTML");
+        assertEquals("Вы успешно подписались на нашу новостную рассылку.", a1Page.getTextSuccessSubscribe().getAttribute("innerHTML"));
 
     }
 
